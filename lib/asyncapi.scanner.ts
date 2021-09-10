@@ -30,8 +30,8 @@ export class AsyncapiScanner {
     const modules: Module[] = this.getModules(container.getModules(), includedModules);
     const globalPrefix = !ignoreGlobalPrefix ? stripLastSlash(this.getGlobalPrefix(app)) : '';
 
-    const denormalizedChannels = modules.map(({ components, metatype, relatedModules }) => {
-      let allComponents = new Map(components);
+    const denormalizedChannels = modules.map(({ components, controllers, metatype, relatedModules }) => {
+      let allComponents = new Map([...components, ...controllers]);
 
       if (deepScanRoutes) {
         // only load submodules routes if asked

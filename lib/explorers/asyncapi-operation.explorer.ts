@@ -13,6 +13,7 @@ export const exploreAsyncapiOperationMetadata = (
   prototype: Type<unknown>,
   method: object,
 ) => {
+  const reqResbMetadata: AsyncOperationOptions = exploreAsyncapiReqResMetadata(instance, prototype, method);
   const pubMetadata: AsyncOperationOptions = exploreAsyncapiPubMetadata(instance, prototype, method);
   const subMetadata: AsyncOperationOptions = exploreAsyncapiSubMetadata(instance, prototype, method);
 
@@ -38,6 +39,7 @@ export const exploreAsyncapiOperationMetadata = (
         channel: undefined,
       },
     };
+    (subObject as any).sub.message['x-response'] = 'test';
   }
 
   return { ...pubObject, ...subObject };
@@ -48,4 +50,7 @@ export const exploreAsyncapiPubMetadata = (_instance: object, _prototype: Type<u
 };
 export const exploreAsyncapiSubMetadata = (_instance: object, _prototype: Type<unknown>, method: object) => {
   return Reflect.getMetadata(DECORATORS.ASYNCAPI_SUB, method);
+};
+export const exploreAsyncapiReqResMetadata = (_instance: object, _prototype: Type<unknown>, method: object) => {
+  return Reflect.getMetadata(DECORATORS.ASYNCAPI_REQRES, method);
 };

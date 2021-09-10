@@ -4,9 +4,9 @@ import { INestApplication, Logger } from '@nestjs/common';
 
 import { AsyncAPIObject } from './index';
 import { AsyncapiScanner } from './asyncapi.scanner';
-import { AsyncapiGenerator } from './services';
 import { AsyncApiTemplateOptions } from './interfaces';
 import jsyaml from 'js-yaml';
+import template from './html';
 
 export interface AsyncApiDocumentOptions extends SwaggerDocumentOptions {}
 
@@ -31,11 +31,7 @@ export class AsyncApiModule {
   }
 
   static async composeHtml(contract: AsyncAPIObject, templateOptions?: AsyncApiTemplateOptions) {
-    const generator = new AsyncapiGenerator(templateOptions);
-    return await generator.generate(contract).catch((e) => {
-      this.logger.error(e);
-      throw e;
-    });
+    return template('/async-api-json');
   }
 
   public static async setup(path: string, app: INestApplication, document: AsyncAPIObject, templateOptions?: AsyncApiTemplateOptions) {
